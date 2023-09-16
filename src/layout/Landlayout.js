@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import abi from '../config/abi.json';
 
 const web3 = new Web3("https://arb1.arbitrum.io/rpc");
-const contractAddress = '0x690e66fc0F8be8964d40e55EdE6aEBdfcB8A21Df'; //arbitrum address
+const contractAddress = '0x690e66fc0F8be8964d40e55EdE6aEBdfcB8A21Df'; //arbitrum pool address
 var flag = 0;
 
 function Landlayout() {
@@ -31,8 +31,8 @@ function Landlayout() {
   const getUSD = async () => {
     const contract = new web3.eth.Contract(abi, contractAddress);
     const result = await contract.methods.vUsdBalance().call();
-    const decimals = Number.parseInt(await contract.methods.decimals().call());
-    const tvl = Number.parseFloat(result)/(10**decimals);
+    //const decimals = Number.parseInt(await contract.methods.decimals().call());
+    const tvl = Number.parseFloat(result);
     setUsdValue(tvl);
   }
 
@@ -58,12 +58,12 @@ function Landlayout() {
             </div>
             <div className='text-lg text-white opacity-60 leading-relaxed'> Arbitrum pool (Token):  {token_value} {token_limit<usd_value?"(Overload)":""}</div>
             <div className='email-input mt-5 mb-5'>
-              <input className='text-base text-white' placeholder='Enter the limitation' value={token_limit} onChange={(e)=>setTokenLimit(e.target.value)}></input>
+              <input className='text-base text-white' placeholder='Enter the token limitation' value={token_limit} onChange={(e)=>setTokenLimit(e.target.value)}></input>
             </div>
 
-            <div className='text-lg text-white opacity-60 leading-relaxed'> Arbitrum pool (USD):  {usd_value} {usd_limit<usd_value?"(Overload)":""}</div>
+            <div className='text-lg text-white opacity-60 leading-relaxed'> Arbitrum pool (vUSD):  {usd_value} {usd_limit<usd_value?"(Overload)":""}</div>
             <div className='email-input mt-5'>
-              <input className='text-base text-white' placeholder='Enter the limitation' value={usd_limit} onChange={(e)=>setUsdLimit(e.target.value)}></input>
+              <input className='text-base text-white' placeholder='Enter the vUSD limitation' value={usd_limit} onChange={(e)=>setUsdLimit(e.target.value)}></input>
             </div>
         </div>
     </div>
